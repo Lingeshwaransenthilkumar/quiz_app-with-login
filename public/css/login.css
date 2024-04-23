@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Fira+Sans:wght@600&family=Lumanosimo&family=Permanent+Marker&family=REM&family=Roboto&family=Ysabeau+SC:wght@600;800;1000&display=swap');
+body{
+    background: #5199E4;
+    font-family: 'Fira Sans', sans-serif;
+    height: 100vh;
+    width: 100vw;
+}
+.container{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+.box{
+    border: transparent;
+    padding: 20px;
+    background: white;
+    width: 300px;
+    height: 350px;
+
+}
+.box .text{
+    text-align: center;
+    color: #5199E4;
+    font-size: 1.8rem;
+}
+.box .data{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+}
+.box input{
+    padding: 10px;
+    width: 95%;
+    margin-top: 5px;
+    border: transparent;
+    border-radius: 15px;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+}
+.box .forget-pass a {
+    color: #5199E4;
+    text-decoration: none;
+    
+
+}
+.box .button button{
+    margin-top: 10px;
+    width: 100%;
+    height: 35px;
+    color: white;
+    background: #5199E4;
+    border: transparent;
+    border-radius: 20px;
+    font-size: 1rem;
+   
+}
+.box .signup-link{
+    text-align: center;
+    margin-top: 20px;
+}
+.box .signup-link a{
+    text-decoration: none;
+    color: #5199E4;
+}
+.error{
+    color: red;
+    font: bold;
+    text-align: center;
+    padding: 5px;
+}
+.good{
+    color: green;
+    font: bold;
+    text-align: center;
+    padding: 5px;
+}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    {{> header}}
+
+    <body>
+       
+         {{> navbar}}
+        
+       <div class="container">
+         <div class="box bg-light">
+            <div class="profile-image">
+                <img src="/images/profile.jpg" height="150px" width="150px">
+            </div>
+            <div class="content">
+                <h4><b>Name :</b> {{user.NAME}}</h4>
+                <h4><b>Email :</b> {{user.EMAIL}}</h4>
+            </div>
+         </div>
+       </div>
+    </body>
+</html>

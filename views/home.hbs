@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+        <head>
+        <title>Profile page</title>
+        <!--
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+        -->
+    
+    
+        <link rel="stylesheet" type="text/css" href="/css/home.css">
+    </head>
+
+    <body>
+        
+        <nav class="navbar">
+    <div class="container">
+        <a href="" class="navbar-brand">Quiz App</a>
+        <button class="toggle-button" aria-label="Toggle Navigation">
+            <span class="toggle-icon"><ion-icon name="menu-outline"></ion-icon></span>
+        </button>
+        <div class="menu">
+            <ul class="navbar-nav">
+                {{#if user}}
+                    <li class="navbar-item">
+                        <a href="/home" class="nav-link">Home</a>
+                    </li>
+                    <li class="navbar-item">
+                        <a href="/profile" class="nav-link">Profile</a>
+                    </li>
+                    <li class="navbar-item">
+                        <a href="/auth/logout" class="nav-link">Logout</a>
+                    </li>
+                {{else}}
+                    <li class="navbar-item">
+                        <a href="/register" class="nav-link">Register</a>
+                    </li>
+                    <li class="navbar-item">
+                        <a href="/" class="nav-link">Login</a>
+                    </li>
+                {{/if}}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+        
+       <button class="instructions">Instructions</button>
+        <div class="app">
+            <h1>Simple Quiz App</h1>
+            <h6 id="number"></h6>
+            <div class="quiz">
+                <h2 id="question">Questions goes here</h2>
+                <div id="answer-buttons">
+                    <button class="btn">Answer 1</button>
+                    <button class="btn">Answer 2</button>
+                    <button class="btn">Answer 3</button>
+                    <button class="btn">Answer 4</button>
+                </div>
+                <button id="next-btn" type="submit">Next</button>
+            </div>
+        </div>
+        <div class="black-bg"></div>
+        <div class="popup-box">
+            <h2>Quiz Guide</h2>
+            <button class="exit"><ion-icon name="exit-outline"></ion-icon></button>
+            <div class="instructions-list">
+                <ol>
+                    <li>20 questions on Node.js and JavaScript basics.</li>
+                    <li>No time limit.</li>
+                    <li>Don't switch windows; multiple switches lead to exit.</li>
+                    <li>Correct answer shown after wrong answer.</li>
+                    <li>Total score given at the end.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!--ionicons cdn file link-->
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+        <script>
+// diable right click on inspect
+  document.addEventListener('contextmenu', event => event.preventDefault());
+
+const questions = [
+    {
+        question: "What is 'hoisting' in JavaScript?",
+        answers: [
+            { text: "A feature that allows you to access variables before they are declared", correct: true },
+            { text: "A technique for lifting heavy objects", correct: false },
+            { text: "A method for organizing code into modules", correct: false },
+            { text: "A way to handle asynchronous operations", correct: false }
+        ]
+    },
+    {
+        question: "What does the 'use strict' directive do in JavaScript?",
+        answers: [
+            { text: "Enables strict mode, which catches common coding mistakes and 'unsafe' actions", correct: true },
+            { text: "Defines a section of code that should be executed in strict mode", correct: false },
+            { text: "Prevents the use of certain keywords and features", correct: false },
+            { text: "Specifies that a function should be executed in strict mode", correct: false }
+        ]
+    },
+    {
+        question: "What is the difference between '==' and '===' operators in JavaScript?",
+        answers: [
+            { text: "'==' performs type coercion, while '===' does not", correct: true },
+            { text: "'==' checks only for equality of value, while '===' also checks for equality of type", correct: false },
+            { text: "'==' is used for strict comparison, while '===' is used for loose comparison", correct: false },
+            { text: "'==' is used for loose comparison, while '===' is used for strict comparison", correct: false }
+        ]
+    },
+    {
+        question: "What is the difference between 'null' and 'undefined' in JavaScript?",
+        answers: [
+            { text: "'null' is an explicitly assigned value that represents 'no value', while 'undefined' means a variable has been declared but not assigned a value", correct: true },
+            { text: "'null' means a variable has been declared but not assigned a value, while 'undefined' is an explicitly assigned value that represents 'no value'", correct: false },
+            { text: "'null' and 'undefined' are interchangeable and can be used interchangeably in code", correct: false },
+            { text: "'null' and 'undefined' both represent 'no value', but 'null' is used for variables and 'undefined' is used for functions", correct: false }
+        ]
+    },
+    {
+        question: "What is the purpose of the 'map' method in JavaScript?",
+        answers: [
+            { text: "To create a new array with the results of calling a provided function on every element in the array", correct: true },
+            { text: "To modify the original array by applying a provided function to every element", correct: false },
+            { text: "To remove elements from an array that do not meet a specified condition", correct: false },
+            { text: "To check if all elements in an array pass a specified test", correct: false }
+        ]
+    },
+    {
+        question: "What does the 'bind' method do in JavaScript?",
+        answers: [
+            { text: "Creates a new function that, when called, has its 'this' keyword set to the provided value", correct: true },
+            { text: "Binds an event handler to a specified DOM element", correct: false },
+            { text: "Creates a new array with the results of calling a provided function on every element in the array", correct: false },
+            { text: "Combines two or more arrays into a single array", correct: false }
+        ]
+    },
+    {
+        question: "What is the purpose of the 'reduce' method in JavaScript?",
+        answers: [
+            { text: "To reduce an array to a single value by applying a function to each element and accumulating the result", correct: true },
+            { text: "To remove the last element from an array and return that element", correct: false },
+            { text: "To create a new array with all elements that pass a test implemented by the provided function", correct: false },
+            { text: "To create a new array with the results of calling a provided function on every element in the array", correct: false }
+        ]
+    },
+    {
+        question: "What is a 'closure' in JavaScript?",
+        answers: [
+            { text: "A function that has access to its own scope, plus the scope of its enclosing function, even after the enclosing function has finished executing", correct: true },
+            { text: "A function that is defined inside another function", correct: false },
+            { text: "A function that has access to the 'this' keyword of its enclosing function", correct: false },
+            { text: "A function that can be called before its declaration", correct: false }
+        ]
+    },
+    {
+        question: "What is the difference between 'null' and 'undefined' in JavaScript?",
+        answers: [
+            { text: "'null' is an explicitly assigned value that represents 'no value', while 'undefined' means a variable has been declared but not assigned a value", correct: true },
+            { text: "'null' means a variable has been declared but not assigned a value, while 'undefined' is an explicitly assigned value that represents 'no value'", correct: false },
+            { text: "'null' and 'undefined' are interchangeable and can be used interchangeably in code", correct: false },
+            { text: "'null' and 'undefined' both represent 'no value', but 'null' is used for variables and 'undefined' is used for functions", correct: false }
+        ]
+    },
+    {
+        question: "What is 'lexical scope' in JavaScript?",
+        answers: [
+            { text: "The scope determined by the placement of variables and functions in the source code", correct: true },
+            { text: "The scope of a variable declared inside a function", correct: false },
+            { text: "The scope of a variable declared outside any function or block", correct: false },
+            { text: "The scope of a variable declared with the 'var' keyword", correct: false }
+        ]
+    },
+    {
+        question: "What is the 'event loop' in JavaScript?",
+        answers: [
+            { text: "A mechanism that allows JavaScript to handle asynchronous operations", correct: true },
+            { text: "A loop that handles user interface events", correct: false },
+            { text: "A loop that handles keyboard and mouse events", correct: false },
+            { text: "A loop that iterates through all events in a program", correct: false }
+        ]
+    },
+    {
+        question: "What is a 'promise' in JavaScript?",
+        answers: [
+            { text: "An object representing the eventual completion or failure of an asynchronous operation", correct: true },
+            { text: "A guarantee that a function will return a value", correct: false },
+            { text: "A function that is called after a delay", correct: false },
+            { text: "A function passed as an argument to another function, to be executed later", correct: false }
+        ]
+    },
+    {
+        question: "What is 'asynchronous programming' in JavaScript?",
+        answers: [
+            { text: "Executing tasks independently of the main program flow", correct: true },
+            { text: "Executing tasks in a random order", correct: false },
+            { text: "Executing multiple tasks at the same time", correct: false },
+            { text: "Executing tasks in a sequential order", correct: false }
+        ]
+    },
+    {
+        question: "What is the purpose of the 'let' keyword in JavaScript?",
+        answers: [
+            { text: "To declare a variable with block scope", correct: true },
+            { text: "To declare a constant variable", correct: false },
+            { text: "To declare a variable with function scope", correct: false },
+            { text: "To declare a global variable", correct: false }
+        ]
+    },
+    {
+        question: "What is the purpose of 'callback functions' in JavaScript?",
+        answers: [
+            { text: "To handle asynchronous operations", correct: true },
+            { text: "To call a function automatically after a delay", correct: false },
+            { text: "To repeat a function call multiple times", correct: false },
+            { text: "To convert a synchronous function into an asynchronous function", correct: false }
+        ]
+    },
+    {
+        question: "What is 'block scope' in JavaScript?",
+        answers: [
+            { text: "The scope within a code block, such as within an if statement or loop", correct: true },
+            { text: "The scope of a variable declared inside a function", correct: false },
+            { text: "The scope of a variable declared outside any function or block", correct: false },
+            { text: "The scope of a variable declared with the 'var' keyword", correct: false }
+        ]
+    },
+    {
+        question: "What is the purpose of the 'localStorage' object in JavaScript?",
+        answers: [
+            { text: "To store data that persists even after the browser is closed and reopened", correct: true },
+            { text: "To store data temporarily while a web page is open", correct: false },
+            { text: "To store data permanently, even after the browser is closed", correct: false },
+            { text: "To store data that can only be accessed by the current web page", correct: false }
+        ]
+    },
+    {
+        question: "What is 'callback hell' in JavaScript?",
+        answers: [
+            { text: "A situation where callback functions are nested deeply, making the code hard to read and maintain", correct: true },
+            { text: "A situation where callback functions are not used properly", correct: false },
+            { text: "A situation where callback functions cause errors in the code", correct: false },
+            { text: "A situation where callback functions are not executed", correct: false }
+        ]
+    },
+    {
+        question: "What is 'lexical scope' in JavaScript?",
+        answers: [
+            { text: "The scope determined by the placement of variables and functions in the source code", correct: true },
+            { text: "The scope of a variable declared inside a function", correct: false },
+            { text: "The scope of a variable declared outside any function or block", correct: false },
+            { text: "The scope of a variable declared with the 'var' keyword", correct: false }
+        ]
+    }
+];
+// shuffling answers
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+questions.forEach(question => {
+    question.answers = shuffle(question.answers);
+});
+
+
+const questionElement=document.getElementById("question");
+const answerButtons=document.getElementById("answer-buttons");
+const nextButton=document.getElementById("next-btn");
+let currentQuestionIndex=0;
+const quiz = document.querySelector(".quiz");
+let score=0;
+
+
+
+
+//! starting quix by score 0
+function startQuiz(){
+    let currentQuestionIndex=0;
+    let score=0;
+    nextButton.innerHTML="Next";
+    showQuestion();
+    //testing
+    checkScreenSwitch();
+}
+
+
+
+
+//! show question
+function showQuestion(){
+    //! donot show previous questions
+    resetState();
+    let currentQuestion=questions[currentQuestionIndex];
+    let questionNo=currentQuestionIndex+1;
+    let number = document.querySelector("#number");
+    questionElement.innerHTML=questionNo +' . '+ currentQuestion.question;
+    number.innerText= `${questionNo}/${questions.length}`;
+
+    currentQuestion.answers.forEach(answers=>{
+        const button=document.createElement("button");
+        button.innerHTML=answers.text;
+        button.classList.add("btn");
+        answerButtons.appendChild(button);
+        //* adding correct dataset to button element
+        if(answers.correct){
+            button.dataset.correct=answers.correct;//!adding a dataset named correct in each button
+        }
+        button.addEventListener("click",selectAnswer);
+    })
+}
+
+//! function to hide previous questions
+
+function resetState(){
+    nextButton.style.display="none";
+    while(answerButtons.firstChild){
+        answerButtons.removeChild(answerButtons.firstChild);        
+    }
+    
+}
+
+ 
+function selectAnswer(event){
+    const selectedbtn=event.target;//?selected button by clicking event
+    const isCorrect=selectedbtn.dataset.correct==="true";
+    if (isCorrect){
+        selectedbtn.classList.add("correct");
+        score++;
+    }
+    else{
+        selectedbtn.classList.add("incorrect")
+    }
+    //* adding disable functionality when onclicking any event if it the dataset is true or false
+    Array.from(answerButtons.children).forEach(button=>{
+        if(button.dataset.correct==="true"){
+            button.classList.add("correct");
+        }
+        button.disabled=true;
+    });
+    //! on clicking button it will display next button
+    nextButton.style.display="block";
+
+}
+
+function handleNextButton(){
+    currentQuestionIndex++;
+    if(currentQuestionIndex<questions.length){
+        showQuestion();
+    }else{
+        showScore();
+    }
+}
+
+//! function to show score
+function showScore(){
+    resetState();
+    questionElement.innerHTML=`You scored ${score} out of ${questions.length}!`;
+    nextButton.innerHTML="Play Again!";
+    nextButton.style.display="block";
+    currentQuestionIndex = -1;
+    
+}
+
+
+
+//! adding event to next button to show next questions
+nextButton.addEventListener("click",()=>{
+    if(currentQuestionIndex<questions.length){
+        handleNextButton();
+    }else{
+        startQuiz();
+    }
+        
+});
+
+function checkScreenSwitch() {
+    let switchCount = 0;
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') {
+            alert(`Screen switched ${switchCount+1} times`)
+            switchCount++;
+            if (switchCount > 2) {
+                alert("You have exited the test by switching windows too many times.");
+                document.exitFullscreen(); // Exit fullscreen
+                currentQuestionIndex = questions.length; // Skip to the end
+                handleNextButton(); // Show score
+                switchCount = 0;
+            }
+        }
+    });
+}
+
+
+
+startQuiz();
+
+const instruction_btn = document.querySelector(".instructions");
+const overlay = document.querySelector(".black-bg");
+const popup_box = document.querySelector(".popup-box");
+const exit_btn = document.querySelector(".exit");
+
+
+instruction_btn.addEventListener("click",()=>{
+    overlay.style.display = "block";
+    popup_box.style.display = "block";
+});
+
+exit_btn.addEventListener("click",()=>{
+    popup_box.style.display="none";
+    overlay.style.display = "none";
+})
+
+overlay.addEventListener("click",()=>{
+    popup_box.style.display="none";
+    overlay.style.display = "none";
+})
+
+
+
+
+    </script>
+
+    </body>
+</html>

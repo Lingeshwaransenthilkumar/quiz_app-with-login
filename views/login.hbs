@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login form</title>
+    </head>
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+
+    <body>
+        <div class="container">
+           <div class="box">
+            <div class="text">User login</div>
+            {{#if msg}}
+            <p class="{{msg_type}}">{{msg}}</p>
+            {{/if}}
+            <form action="/auth/login" method="post">
+                <div class="data">
+                    <label for="email">Email</label><br>
+                    <input type="email" name="email" id="email">
+                </div>
+                <div class="data">
+                    <label for="password">Password</label><br>
+                    <input type="password" name="password" id="password">
+                </div>
+                <div class="forget-pass">
+                    <a href="#">Forget password</a>
+                </div>
+                <div class="button">
+                    <button type="submit">Login</button>
+                </div>
+                <div class="signup-link">Not a member?
+                    <a href="/register"> Signup Now</a>
+
+                </div>
+            </form>
+           </div>
+
+        </div>
+    </body>
+</html>
